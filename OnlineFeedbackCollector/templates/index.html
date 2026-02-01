@@ -1,23 +1,39 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-    <title>Feedback App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block content %}
+<h2>Share Your Feedback</h2>
+<p style="color: var(--text-muted); margin-bottom: 2rem;">We value your opinion! Please let us know how we can improve.
+</p>
 
-<body>
+<form action="/submit" method="POST">
+    <div class="form-group">
+        <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="John Doe" required>
+    </div>
 
-    <nav>
-        <a href="/">Home</a>
-        <a href="/admin">Admin</a>
-        {% if session.get('admin') %}
-        <a href="/logout">Logout</a>
-        {% endif %}
-    </nav>
+    <div class="form-group">
+        <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="john@example.com" required>
+    </div>
 
-    {% block content %}{% endblock %}
+    <div class="form-group">
+        <label for="rating" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Rating</label>
+        <select id="rating" name="rating" required>
+            <option value="" disabled selected>Select a rating</option>
+            <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+            <option value="4">⭐⭐⭐⭐ (Good)</option>
+            <option value="3">⭐⭐⭐ (Average)</option>
+            <option value="2">⭐⭐ (Fair)</option>
+            <option value="1">⭐ (Poor)</option>
+        </select>
+    </div>
 
-</body>
+    <div class="form-group">
+        <label for="comments" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your Comments</label>
+        <textarea id="comments" name="comments" rows="4" placeholder="Tell us more about your experience..."
+            required></textarea>
+    </div>
 
-</html>
+    <button type="submit">Submit Feedback</button>
+</form>
+{% endblock %}
