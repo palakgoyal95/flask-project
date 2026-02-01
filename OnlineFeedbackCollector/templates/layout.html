@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="/" class="brand"
+            style="margin-right: auto; font-size: 1.25rem; font-weight: 700; color: var(--primary-color);">Feedback
+            App</a>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="navbar-links" id="navbarLinks">
+            <a href="/">Home</a>
+            <a href="/admin">Admin</a>
+            {% if session.get('admin') %}
+            <a href="/logout">Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="card">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('navToggle').addEventListener('click', function () {
+            document.getElementById('navbarLinks').classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    </script>
+
+</body>
+
+</html>
