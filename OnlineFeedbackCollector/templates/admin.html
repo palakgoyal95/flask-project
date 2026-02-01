@@ -57,6 +57,12 @@
         </tbody>
     </table>
 </div>
+<div style="margin-top: 3rem; border-top: 2px solid var(--border-color); padding-top: 2rem;">
+    <form method="POST" action="/clear-feedback"
+        onsubmit="return confirm('⚠️ CRITICAL ACTION: This will permanently delete ALL feedback records. This cannot be undone. Are you sure you want to proceed?');">
+        <button type="submit" class="btn-danger" style="width: auto;">Clear All Feedback Data</button>
+    </form>
+</div>
 
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

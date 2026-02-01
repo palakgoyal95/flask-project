@@ -144,7 +144,17 @@ def api_feedback():
         })
 
     return jsonify(data)
-   
+@app.route("/clear-feedback", methods=["POST"])
+def clear_feedback():
+    if not session.get("admin"):
+        return redirect("/login")
+    
+    conn = get_db()
+    conn.execute("DELETE FROM feedback")
+    conn.commit()
+    conn.close()
+    return redirect("/admin")
+
 
 
 if __name__ == "__main__":
