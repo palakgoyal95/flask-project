@@ -1,14 +1,17 @@
-from flask import Flask, render_template, request, redirect,session,Response
+from flask import Flask, render_template, request, redirect,session,Response,jsonify
 import csv
 import sqlite3
+import os
 from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "superecretkey"
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "database.db")
 # ✅ STEP 1: DEFINE get_db FIRST
 def get_db():
-    return sqlite3.connect("database.db")
+    return sqlite3.connect(DB_PATH)
+
 
 # ✅ STEP 2: CREATE TABLE
 def create_table():
@@ -123,7 +126,26 @@ def export_csv():
             "Content-Disposition": "attachment;filename=feedback.csv"
         }
     )
+@app.route("/api/feedback", methods=["GET"])
+def api_feedback():
+    conn = get_db()
+    rows = conn.execute("SELECT * FROM feedback").fetchall()
+    conn.close()
+
+    data = []
+    for r in rows:
+        data.append({
+            "id": r[0],
+            "name": r[1],
+            "email": r[2],
+            "rating": r[3],
+            "comments": r[4],
+            "date_submitted": r[5]
+        })
+
+    return jsonify(data)
+   
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
